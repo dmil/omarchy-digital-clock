@@ -1,0 +1,62 @@
+;; ─────────────────────────────────────────────
+;;  Digital Clock Widget for Omarchy
+;;  Drop this into your eww.yuck (append to end)
+;; ─────────────────────────────────────────────
+
+;; ── Theme-aware colors (skip if already defined) ──
+;; These match the Flexoki palette used by Omarchy themes.
+;; If you already have these defpolls (e.g. from omarchy-ticktick-widget),
+;; remove the duplicate definitions below.
+
+(defpoll clock_root_bg_style
+  :interval "30s"
+  :initial "background-color: #FFFCF0;"
+  `test -f ~/.config/omarchy/current/theme/light.mode && echo "background-color: #FFFCF0;" || echo "background-color: #1C1B1A;"`)
+
+(defpoll clock_fg_style
+  :interval "30s"
+  :initial "color: #100F0F;"
+  `test -f ~/.config/omarchy/current/theme/light.mode && echo "color: #100F0F;" || echo "color: #CECDC3;"`)
+
+(defpoll clock_muted_style
+  :interval "30s"
+  :initial "color: #6F6E69;"
+  `test -f ~/.config/omarchy/current/theme/light.mode && echo "color: #6F6E69;" || echo "color: #878580;"`)
+
+;; ── Time / date polls ─────────────────────────
+
+(defpoll clock_time
+  :interval "1s"
+  :initial "00:00:00"
+  `date "+%H:%M:%S"`)
+
+(defpoll clock_date
+  :interval "1m"
+  :initial ""
+  `date "+%A, %B %-d"`)
+
+;; ── Widget ────────────────────────────────────
+
+(defwidget clock-widget []
+  (box
+    :class "clock-root"
+    :style {clock_root_bg_style}
+    :orientation "v"
+    :space-evenly false
+    :spacing 6
+    (label :class "clock-time" :style {clock_fg_style}   :text {clock_time} :halign "center" :truncate false)
+    (label :class "clock-date" :style {clock_muted_style} :text {clock_date} :halign "center" :truncate false)))
+
+;; ── Window ────────────────────────────────────
+
+(defwindow clock
+  :monitor 0
+  :geometry (geometry
+    :x "16px"
+    :y "16px"
+    :width "380px"
+    :anchor "top right")
+  :stacking "bottom"
+  :exclusive false
+  :focusable false
+  (clock-widget))

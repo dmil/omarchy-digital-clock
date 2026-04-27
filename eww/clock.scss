@@ -1,0 +1,24 @@
+// ─────────────────────────────────────────────
+//  Digital Clock Widget for Omarchy
+//  Append to your eww.scss
+// ─────────────────────────────────────────────
+
+$clock-font: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+
+.clock-root {
+  border-radius: 12px;
+  padding: 18px 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.clock-time {
+  font-family: $clock-font;
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.clock-date {
+  font-size: 13px;
+  font-weight: 500;
+}
