@@ -46,7 +46,37 @@ else
   echo "  Appended clock.scss"
 fi
 
-# ── 3. Add to Hyprland autostart (optional) ───────────────────────────────────
+# ── 3. Install theme-set hook ────────────────────────────────────────────────
+echo "--> Installing Omarchy theme-set hook ..."
+HOOKS_DIR="$HOME/.config/omarchy/hooks"
+mkdir -p "$HOOKS_DIR"
+HOOK_FILE="$HOOKS_DIR/theme-set"
+
+if [ -f "$HOOK_FILE" ]; then
+  if grep -q "eww open clock" "$HOOK_FILE"; then
+    echo "  theme-set hook already reopens clock — skipping"
+  else
+    # Append the clock open command after the eww daemon line
+    if grep -q "eww daemon" "$HOOK_FILE"; then
+      sed -i 's/eww daemon && eww open/eww daemon \&\& eww open clock \&\& eww open/' "$HOOK_FILE" 2>/dev/null \
+        || echo "eww open clock" >> "$HOOK_FILE"
+    else
+      echo "eww open clock" >> "$HOOK_FILE"
+    fi
+    echo "  Added 'eww open clock' to existing theme-set hook"
+  fi
+else
+  cat > "$HOOK_FILE" <<'EOF'
+#!/bin/bash
+eww kill 2>/dev/null
+sleep 0.5
+eww daemon && eww open clock
+EOF
+  chmod +x "$HOOK_FILE"
+  echo "  Created theme-set hook"
+fi
+
+# ── 4. Add to Hyprland autostart (optional) ───────────────────────────────────
 echo
 read -rp "Add clock to Hyprland autostart? [y/N] " yn
 if [[ "${yn,,}" == "y" ]]; then

@@ -1,0 +1,5 @@
+#!/bin/bash
+# Reopen the clock widget after a theme change.
+# Add this line to ~/.config/omarchy/hooks/theme-set
+# (or merge with your existing hook if one exists):
+eww open clock
