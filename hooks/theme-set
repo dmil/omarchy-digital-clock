@@ -2,8 +2,7 @@
 # Refresh eww widgets after theme change.
 # Close then reopen to avoid stacking duplicate windows.
 # eww reload re-runs all polls so colors update immediately.
-eww close ticktick 2>/dev/null || true
-eww close clock 2>/dev/null || true
+eww close-all 2>/dev/null || true
 eww daemon 2>/dev/null || true
 eww reload
 eww open ticktick
